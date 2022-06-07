@@ -65,10 +65,10 @@ class Parser:
                     # Function
                     elif current_state == self.FUNCTION:
                         curr.data = temp[1]
-                        curr.right = Node()
-                        curr.left = Node()
-                        stack.append(curr.right)
-                        stack.append(curr.left)
+                        curr.children.append(Node())
+                        curr.children.append(Node())
+                        for child in curr.children:
+                            stack.append(child)
                         current_state = self.END
         return root
 

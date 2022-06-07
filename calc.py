@@ -4,18 +4,22 @@ from parse import Parser
 # recursively traverses
 
 
-def calculate(tree):
-    if not tree:
-        return
-    else:
-        if tree.data == None:
-            raise Exception("Missing Parameter for function.")
-        elif tree.data == 'add':
-            return calculate(tree.left) + calculate(tree.right)
-        elif tree.data == 'multiply':
-            return calculate(tree.left) * calculate(tree.right)
-        elif tree.data.isdigit():
-            return int(tree.data)
+def calculate(tree, res):
+    if tree.data == None:
+        raise Exception("Missing Parameter for function.")
+    elif tree.data == 'add':
+        for child in tree.children:
+            res += calculate(child, 0)
+        return res
+    elif tree.data == 'multiply':
+        for child in tree.children:
+            if res == 0:
+                res = calculate(child, 0)
+            else:
+                res *= calculate(child, 0)
+        return res
+    elif tree.data.isdigit():
+        return int(tree.data)
     return 0
 
 
@@ -25,7 +29,7 @@ if __name__ == '__main__':
         tree = p.parse()
         res = None
         try:
-            res = calculate(tree)
+            res = calculate(tree, 0)
         except Exception as e:
             print(e)
         else:
