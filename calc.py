@@ -1,6 +1,8 @@
 import sys
 from parse import Parser
 
+# recursively traverses
+
 
 def calculate(tree):
     if not tree:

@@ -71,3 +71,14 @@ class Parser:
                         stack.append(curr.left)
                         current_state = self.END
         return root
+
+
+# DIGIT = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
+
+# EXPR = INTEGER | ADD | MULTIPLY
+
+# INTEGER = DIGIT, {DIGIT}
+
+# ADD = "(", "a", "d", "d", " ", EXPR, " ", EXPR, ")"
+
+# MULTIPLY = "(", "m", "u", "l", "t", "i", "p", "l", "y", " ", EXPR, " ", EXPR, ")"

@@ -1,4 +1,7 @@
 import unittest
+from lexer import Lexer
+from parse import Parser
+import calc
 
 
 class TestSum(unittest.TestCase):
