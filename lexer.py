@@ -11,9 +11,8 @@ class Lexer:
             current_state = self.DIGIT if lexeme[0].isdigit(
             ) else self.FUNCTION
         if current_state == self.DIGIT:
-            # token = ['INTEGER', lexeme] if lexeme.isdigit() else []
             token = [self.EXPRESSION, lexeme] if lexeme.isdigit() else []
-        if current_state == self.FUNCTION:
+        elif current_state == self.FUNCTION:
             token = [self.EXPRESSION, lexeme] if lexeme.lower(
             ) in self.functions else []
         if not token:

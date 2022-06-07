@@ -3,8 +3,6 @@ from lexer import Lexer
 
 class Node:
     def __init__(self, data=None):
-        self.left = None
-        self.right = None
         self.data = data
         self.children = []
 
@@ -21,7 +19,7 @@ class Parser:
         self.MULTIPLY = 5
         self.FUNCTION = 6
         self.LBRACKET = 7
-        self.LBRACKET = 8
+        self.RBRACKET = 8
         self.END = 9
         self.ERROR = 10
 
@@ -71,8 +69,6 @@ class Parser:
                             stack.append(child)
                         current_state = self.END
         return root
-
-
 # DIGIT = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
 
 # EXPR = INTEGER | ADD | MULTIPLY
