@@ -3,8 +3,10 @@ from parse import Parser
 
 
 def calculate(tree, res):
-    if tree.data == None:
-        raise Exception("Missing Parameter for function.")
+    if tree == None:
+        return 0
+    elif tree.data == None:
+        raise Exception("Missing Parameters for function.")
     elif tree.data == 'add':
         for child in tree.children:
             res += calculate(child, 0)
@@ -24,14 +26,14 @@ def calculate(tree, res):
 if __name__ == '__main__':
     if len(sys.argv) == 2:
         p = Parser(sys.argv[1])
-        tree = p.parse()
         res = None
         try:
+            tree = p.parse()
             res = calculate(tree, 0)
         except Exception as e:
             print(e)
         else:
-            if res:
+            if res != None:
                 print(res)
     else:
         print("Missing Parameter.")

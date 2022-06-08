@@ -1,3 +1,4 @@
+from typing import Type
 from lexer import Lexer
 
 
@@ -35,46 +36,47 @@ class Parser:
                 self.tokens.append(token)
 
     def parse(self):
-        self.setup()
         root = Node()
-        if self.tokens:
-            stack = [root]
-            for token in self.tokens:
-                current_state = self.START
-                temp = token
-                curr = stack.pop()
-                while current_state != self.END:
-                    if current_state == self.START:
-                        current_state = token[0]
-                    elif current_state == self.EXPRESSION:
-                        if temp[1] == 'multiply':
-                            temp[0] = self.MULTIPLY
-                            current_state = self.FUNCTION
-                        elif temp[1] == 'add':
-                            temp[0] = self.ADD
-                            current_state = self.FUNCTION
-                        else:
-                            temp[0] = self.DIGIT
-                            current_state = self.DIGIT
-                    # Digit
-                    elif current_state == self.DIGIT:
-                        curr.data = temp[1]
-                        current_state = self.END
-                    # Function
-                    elif current_state == self.FUNCTION:
-                        curr.data = temp[1]
-                        curr.children.append(Node())
-                        curr.children.append(Node())
-                        for child in curr.children:
-                            stack.append(child)
-                        current_state = self.END
+        try:
+            self.setup()
+        except Exception as e:
+            raise e
+        else:
+            if self.tokens:
+                stack = [root]
+                for token in self.tokens:
+                    current_state = self.START
+                    temp = token
+                    if stack:
+                        curr = stack.pop()
+                    else:
+                        current_state = self.ERROR
+                    while current_state != self.END:
+                        if current_state == self.START:
+                            current_state = token[0]
+                        elif current_state == self.EXPRESSION:
+                            if temp[1] == 'multiply':
+                                temp[0] = self.MULTIPLY
+                                current_state = self.FUNCTION
+                            elif temp[1] == 'add':
+                                temp[0] = self.ADD
+                                current_state = self.FUNCTION
+                            else:
+                                temp[0] = self.DIGIT
+                                current_state = self.DIGIT
+                        # Digit
+                        elif current_state == self.DIGIT:
+                            curr.data = temp[1]
+                            current_state = self.END
+                        # Function
+                        elif current_state == self.FUNCTION:
+                            curr.data = temp[1]
+                            curr.children.append(Node())
+                            curr.children.append(Node())
+                            for child in curr.children:
+                                stack.append(child)
+                            current_state = self.END
+                        elif current_state == self.ERROR:
+                            raise Exception(
+                                "Invalid number of function parameters.")
         return root
-# DIGIT = "0" | "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9"
-
-# EXPR = INTEGER | ADD | MULTIPLY
-
-# INTEGER = DIGIT, {DIGIT}
-
-# ADD = "(", "a", "d", "d", " ", EXPR, " ", EXPR, ")"
-
-# MULTIPLY = "(", "m", "u", "l", "t", "i", "p", "l", "y", " ", EXPR, " ", EXPR, ")"
