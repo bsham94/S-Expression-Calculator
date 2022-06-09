@@ -14,7 +14,7 @@ class Lexer:
     def analyze(self, lexeme):
         token = []
         current_state = self.START
-        if lexeme and lexeme[0]:
+        if lexeme:
             if lexeme[0].isdigit():
                 current_state = self.DIGIT
             elif lexeme == ')':
