@@ -2,13 +2,13 @@ from lexer import Lexer
 
 
 class Node:
-    def __init__(self, data=None):
-        self.data = data
+    def __init__(self):
+        self.data = None
         self.children = []
 
 
 class Parser:
-    def __init__(self, sexp):
+    def __init__(self, sexp=""):
         self.sexp = sexp
         self.lexer = Lexer()
         self.tokens = []
@@ -63,44 +63,53 @@ class Parser:
             token = self.lexer.analyze(s)
             if token:
                 self.tokens.append(token)
+        return self.tokens
+        # print(self.tokens)
 
-    def parse(self):
+    def run_parser(self):
+        '''
+        Runs Parser
+        '''
+        root = None
+        try:
+            tokens = self.setup()
+            root = self.parse(tokens)
+        except Exception as e:
+            raise e
+        return root
+
+    def parse(self, tokens):
         '''
         Parses the list of tokens and builds a syntax tree
         '''
         root = Node()
         current_state = self.STARTEXP
-        try:
-            self.setup()
-        except Exception as e:
-            raise e
-        else:
-            if self.tokens:
-                stack = [root]
-                for token in self.tokens:
-                    if not stack:
-                        current_state = self.ERROR
-                    # State machine for processing a token
-                    while current_state != self.END:
-                        if current_state == self.STARTEXP:
-                            current_state = self.startexp_state(stack, token)
-                        elif current_state == self.START:
-                            current_state = token[0]
-                        elif current_state == self.EXPRESSION:
-                            current_state = self.expression_state(token)
-                        elif current_state == self.LBRACKET:
-                            current_state = self.lbracket_state(stack)
-                        elif current_state == self.RBRACKET:
-                            current_state = self.rbracket_state(stack)
-                        elif current_state == self.DIGIT:
-                            current_state = self.digit_state(stack, token)
-                        elif current_state == self.FUNCTION:
-                            current_state = self.function_state(
-                                stack, token)
-                        elif current_state == self.ERROR:
-                            raise Exception(
-                                "Invalid number of function parameters.\nEach function requires 2 parameters.")
-                    current_state = self.START
+        if tokens:
+            stack = [root]
+            for token in tokens:
+                if not stack:
+                    current_state = self.ERROR
+                # State machine for processing a token
+                while current_state != self.END:
+                    if current_state == self.STARTEXP:
+                        current_state = self.startexp_state(stack, token)
+                    elif current_state == self.START:
+                        current_state = token[0]
+                    elif current_state == self.EXPRESSION:
+                        current_state = self.expression_state(token)
+                    elif current_state == self.LBRACKET:
+                        current_state = self.lbracket_state(stack)
+                    elif current_state == self.RBRACKET:
+                        current_state = self.rbracket_state(stack)
+                    elif current_state == self.DIGIT:
+                        current_state = self.digit_state(stack, token)
+                    elif current_state == self.FUNCTION:
+                        current_state = self.function_state(
+                            stack, token)
+                    elif current_state == self.ERROR:
+                        raise Exception(
+                            "Invalid number of function parameters.\nEach function requires 2 parameters.")
+                current_state = self.START
         return root
 
     def startexp_state(self, stack, token):
@@ -120,7 +129,7 @@ class Parser:
         '''
         Logic for rightbracket state
         '''
-        # Sets state to error if node has more than 2 children
+        # Sets state to error if node does not have 2 child nodes
         if len(stack[-1].children) == 2:
             # Rbracket indicates end of an expression
             # Pop node off the stack
@@ -135,7 +144,7 @@ class Parser:
         stack: datastructure holding the tree nodes
         return: the new state
         '''
-        # Sets state to error if node has more than 2 children
+        # Sets state to error if node has more than 2 child nodes
         if len(stack[-1].children) < 2:
             # Lbracket means new expression
             # Add node to stack
@@ -173,7 +182,7 @@ class Parser:
         token: current token being processed
         return: the new state
         '''
-        # Sets state to error if node has more than 2 children
+        # Sets state to error if node has more than 2 child nodes
         if len(stack[-1].children) < 2:
             node = Node()
             node.data = token[1]

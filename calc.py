@@ -21,7 +21,7 @@ def calculate(tree, res):
     elif tree.data == 'multiply':
         # Calculates the result of all child nodes
         for child in tree.children:
-            if res == 0:
+            if child == tree.children[0]:
                 res = calculate(child, 0)
             else:
                 res *= calculate(child, 0)
@@ -37,7 +37,7 @@ if __name__ == '__main__':
         res = None
         try:
             # Parse input into a tree structure
-            tree = p.parse()
+            tree = p.run_parser()
             # Calculate answer
             res = calculate(tree, 0)
         except Exception as e:

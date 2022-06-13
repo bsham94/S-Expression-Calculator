@@ -1,5 +1,10 @@
 # S-Expression-Calculator
-Usage:
+
+#Python Version
+
+3.8
+
+#Usage:
 
 $ ./calc.py 123
 123
