@@ -63,7 +63,6 @@ class Parser:
             token = self.lexer.analyze(s)
             if token:
                 self.tokens.append(token)
-        return self.tokens
         # print(self.tokens)
 
     def run_parser(self):
@@ -72,21 +71,21 @@ class Parser:
         '''
         root = None
         try:
-            tokens = self.setup()
-            root = self.parse(tokens)
+            self.setup()
+            root = self.parse()
         except Exception as e:
             raise e
         return root
 
-    def parse(self, tokens):
+    def parse(self):
         '''
         Parses the list of tokens and builds a syntax tree
         '''
         root = Node()
         current_state = self.STARTEXP
-        if tokens:
+        if self.tokens:
             stack = [root]
-            for token in tokens:
+            for token in self.tokens:
                 if not stack:
                     current_state = self.ERROR
                 # State machine for processing a token
