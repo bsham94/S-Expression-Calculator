@@ -1,3 +1,7 @@
+# ---------------------------------------------------------------------------
+# Created By  : Ben Shamas
+# Created Date: 6/13/2022
+# ---------------------------------------------------------------------------
 from lexer import Lexer
 
 
@@ -63,7 +67,6 @@ class Parser:
             token = self.lexer.analyze(s)
             if token:
                 self.tokens.append(token)
-        # print(self.tokens)
 
     def run_parser(self):
         '''
