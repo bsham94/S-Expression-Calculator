@@ -5,13 +5,13 @@
 3.8
 
 ## Usage:
-
+```
 $ ./calc.py 123
 123
 
 $ ./calc.py "(add 12 12)"
 24
-
+```
 ## Grammer
 ```
 START = EXPR
