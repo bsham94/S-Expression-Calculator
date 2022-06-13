@@ -1,6 +1,3 @@
-from doctest import Example
-
-
 class Lexer:
     def __init__(self):
         self.functions = ['add', 'multiply']
@@ -12,6 +9,11 @@ class Lexer:
         self.RBRACKET = 8
 
     def analyze(self, lexeme):
+        '''
+        Returns a string with a Token value type.
+        lexeme: a string of characters
+        return: [TokenType, Value] 
+        '''
         token = []
         current_state = self.START
         if lexeme:
