@@ -1,10 +1,10 @@
 # S-Expression-Calculator
 
-#Python Version
+## Python Version
 
 3.8
 
-#Usage:
+## Usage:
 
 $ ./calc.py 123
 123
@@ -12,7 +12,7 @@ $ ./calc.py 123
 $ ./calc.py "(add 12 12)"
 24
 
-# Grammer
+## Grammer
 ```
 START = EXPR
 EXPR = INTEGER | FUNC
