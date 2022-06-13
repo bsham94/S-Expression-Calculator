@@ -54,7 +54,7 @@ class Parser:
 
     def setup(self):
         '''
-        Performs basic setup for the parser
+        Performs setup for the parser
         '''
         self.tokenize()
         for s in self.sexp:
