@@ -132,7 +132,7 @@ class Parser:
         Logic for rightbracket state
         '''
         # Sets state to error if node does not have 2 child nodes
-        if len(stack[-1].children) == 2:
+        if len(stack[-1].children) >= 2:
             # Rbracket indicates end of an expression
             # Pop node off the stack
             stack.pop()
@@ -147,15 +147,15 @@ class Parser:
         return: the new state
         '''
         # Sets state to error if node has more than 2 child nodes
-        if len(stack[-1].children) < 2:
-            # Lbracket means new expression
-            # Add node to stack
-            node = Node()
-            stack[-1].children.append(node)
-            stack.append(node)
-            return self.END
-        else:
-            return self.ERROR
+        # if len(stack[-1].children) < 2:
+        # Lbracket means new expression
+        # Add node to stack
+        node = Node()
+        stack[-1].children.append(node)
+        stack.append(node)
+        return self.END
+        # else:
+        #     return self.ERROR
 
     def expression_state(self, token):
         '''
@@ -185,14 +185,14 @@ class Parser:
         return: the new state
         '''
         # Sets state to error if node has more than 2 child nodes
-        if len(stack[-1].children) < 2:
-            node = Node()
-            node.data = token[1]
-            # Add a new node to list
-            stack[-1].children.append(node)
-            return self.END
-        else:
-            return self.ERROR
+        # if len(stack[-1].children) < 2:
+        node = Node()
+        node.data = token[1]
+        # Add a new node to list
+        stack[-1].children.append(node)
+        return self.END
+        # else:
+        #     return self.ERROR
 
     def function_state(self, stack, token):
         '''
