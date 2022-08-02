@@ -5,14 +5,32 @@
 3.8
 
 ## Usage:
+
 ```
 $ ./calc.py 123
 123
 
 $ ./calc.py "(add 12 12)"
 24
+
+$ ./calc.py "(add 12 12 12 12 12)"
+60
+
+$ ./calc.py "(add 12 (multiply 2 2))"
+16
 ```
+
+## Supported Functions
+
+```
+ADD
+SUBTRACT
+DIVIDE
+MULTIPLY
+```
+
 ## Grammer
+
 ```
 START = EXPR
 EXPR = INTEGER | FUNC
