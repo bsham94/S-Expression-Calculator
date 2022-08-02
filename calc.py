@@ -2,6 +2,7 @@
 # Created By  : Ben Shamas
 # Created Date: 6/13/2022
 # ---------------------------------------------------------------------------
+from decimal import DivisionByZero
 import sys
 from parse import Parser
 
@@ -29,6 +30,22 @@ def calculate(tree, res):
                 res = calculate(child, 0)
             else:
                 res *= calculate(child, 0)
+        return res
+    elif tree.data == 'subtract':
+        for child in tree.children:
+            if child == tree.children[0]:
+                res = calculate(child, 0)
+            else:
+                res -= calculate(child, 0)
+        return res
+    elif tree.data == 'divide':
+        for child in tree.children:
+            if child == tree.children[0]:
+                res = calculate(child, 0)
+            else:
+                if child.data == 0:
+                    raise DivisionByZero()
+                res /= calculate(child, 0)
         return res
     elif tree.data.isdigit():
         return int(tree.data)

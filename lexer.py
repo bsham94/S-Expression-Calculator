@@ -4,7 +4,7 @@
 # ---------------------------------------------------------------------------
 class Lexer:
     def __init__(self):
-        self.functions = ['add', 'multiply']
+        self.functions = ['add', 'multiply', 'divide', 'subtract']
         self.START = 0
         self.DIGIT = 1
         self.FUNCTION = 2

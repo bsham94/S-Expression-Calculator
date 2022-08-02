@@ -27,6 +27,8 @@ class Parser:
         self.END = 9
         self.ERROR = 10
         self.STARTEXP = 11
+        self.DIVIDE = 13
+        self.SUBTRACT = 14
 
     def tokenize(self):
         '''
@@ -112,6 +114,7 @@ class Parser:
                         raise Exception(
                             "Invalid number of function parameters.\nEach function requires 2 parameters.")
                 current_state = self.START
+
         return root
 
     def startexp_state(self, stack, token):
@@ -169,6 +172,12 @@ class Parser:
             current_state = self.FUNCTION
         elif token[1] == 'add':
             token[0] = self.ADD
+            current_state = self.FUNCTION
+        elif token[1] == 'divide':
+            token[0] = self.DIVIDE
+            current_state = self.FUNCTION
+        elif token[1] == 'subtract':
+            token[0] = self.SUBTRACT
             current_state = self.FUNCTION
         elif token[1].isdigit():
             token[0] = self.DIGIT
